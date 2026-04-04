@@ -1,0 +1,118 @@
+.flower {
+    /* Scaled down from 300px to 24px */
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  }
+  
+  .petal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Scaled down from 35px/60px */
+    width: 6px;
+    height: 10px;
+    background: linear-gradient(180deg, #fcdbdf, #fd688d);
+    border-radius: 50%;
+    transition: background 0.3s ease;
+  }
+  
+  .petal1 {
+    transform: translate(-50%, -50%) rotate(0deg) translateY(-8px);
+  }
+  
+  .petal2 {
+    transform: translate(-50%, -50%) rotate(45deg) translateY(-8px);
+  }
+  
+  .petal3 {
+    transform: translate(-50%, -50%) rotate(90deg) translateY(-8px);
+  }
+  
+  .petal4 {
+    transform: translate(-50%, -50%) rotate(135deg) translateY(-8px);
+  }
+  
+  .petal5 {
+    transform: translate(-50%, -50%) rotate(180deg) translateY(-8px);
+  }
+  
+  .petal6 {
+    transform: translate(-50%, -50%) rotate(225deg) translateY(-8px);
+  }
+  
+  .petal7 {
+    transform: translate(-50%, -50%) rotate(270deg) translateY(-8px);
+  }
+  
+  .petal8 {
+    transform: translate(-50%, -50%) rotate(315deg) translateY(-8px);
+  }
+  
+  .center {
+    position: absolute;
+    /* Scaled down from 30px */
+    width: 6px;
+    height: 6px;
+    background-color: #f1d2d2;
+    border-radius: 50%;
+  }
+  
+  /* Animation on hover only */
+  .group:hover .petal {
+    animation-name: changeColor;
+    animation-duration: 8s;
+    animation-direction: reverse;
+    animation-iteration-count: infinite;
+  }
+  
+  .group:hover .flower {
+    animation-name: rotateFlower;
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+  }
+  
+  /* Static "grown" state when active */
+  .active .flower {
+    transform: scale(1.5);
+  }
+  
+  .active .petal {
+    background: linear-gradient(180deg, #fcbed6, #ff78b7);
+  }
+  
+  @keyframes changeColor {
+    0% {
+      background: linear-gradient(180deg, #fcdbdf, #ff78b7);
+    }
+    25% {
+      background: linear-gradient(180deg, #fcd2e3, #fa6094);
+    }
+    50% {
+      background: linear-gradient(180deg, #fcbed6, #ff78b7);
+    }
+    75% {
+      background: linear-gradient(180deg, #f7d6d6, #fd6a6a);
+    }
+    100% {
+      background: linear-gradient(180deg, #fcbed6, #ff78b7);
+    }
+  }
+  
+  @keyframes rotateFlower {
+    0% {
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
+      transform: scale(1.5) rotate(360deg);
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+    }
+  }
+   
