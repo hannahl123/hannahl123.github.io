@@ -16,8 +16,8 @@ module.exports = {
         'card': '#f3caca6f',
         'primary': '#916262',
         'secondary': '#9f7282',
-        'accent': '#ffb2d2',
-        'accent-hover': '#ffd6d9',
+        'accent': '#fe99c3',
+        'accent-hover': '#ffc7dab6',
       }
     },
   },

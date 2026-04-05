@@ -36,7 +36,12 @@ const Navbar = ({ activeSection }) => {
             <div className="center"></div>
           </div>
         </div>
-        <span className="ml-4">About</span>
+        <span
+          className="ml-4 font-bold"
+          style={{ fontFamily: "'Delius Swash Caps', cursive" }}
+        >
+          About
+        </span>
       </a>
       <a
         href="#experience"
@@ -58,7 +63,12 @@ const Navbar = ({ activeSection }) => {
             <div className="center"></div>
           </div>
         </div>
-        <span className="ml-4">Experience</span>
+        <span
+          className="ml-4 font-bold"
+          style={{ fontFamily: "'Delius Swash Caps', cursive" }}
+        >
+          Experience
+        </span>
       </a>
       <a
         href="#projects"
@@ -80,7 +90,12 @@ const Navbar = ({ activeSection }) => {
             <div className="center"></div>
           </div>
         </div>
-        <span className="ml-4">Projects</span>
+        <span
+          className="ml-4 font-bold"
+          style={{ fontFamily: "'Delius Swash Caps', cursive" }}
+        >
+          Projects
+        </span>
       </a>
     </nav>
   );

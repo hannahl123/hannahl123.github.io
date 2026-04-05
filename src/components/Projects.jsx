@@ -178,8 +178,8 @@ const Projects = ({ onNavigate }) => {
         {projects.length > 5 && (
           <div className="mt-12 text-center">
             <button
-              onClick={() => onNavigate('allProjects')}
-              className="px-6 py-3 font-semibold text-primary bg-transparent border-2 border-primary rounded-full transition-colors duration-300 hover:bg-primary hover:text-background"
+              onClick={() => onNavigate("allProjects")}
+              className="px-6 py-3 font-semibold text-md text-primary bg-transparent border border-accent-hover rounded-xl transition-colors duration-300 hover:bg-accent-hover"
             >
               View all projects
             </button>
