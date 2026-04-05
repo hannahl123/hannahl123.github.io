@@ -25,7 +25,7 @@ const About = () => {
       </p>
       <div className="mt-8 text-center">
         <a
-          href="/Resume_Hannah_liu.pdf"
+          href="/Resume_Hannah_Liu.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block px-6 py-3 text-md font-semibold text-primary bg-transparent border border-accent-hover rounded-xl transition-colors duration-300 hover:bg-accent-hover"
