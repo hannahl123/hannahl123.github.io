@@ -40,27 +40,35 @@ const Experience = () => {
   return (
     <section id="experience" className="py-20">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold mb-12 text-primary text-center">
+        <h2 className="text-3xl font-bold mb-8 text-primary text-center">
           Work Experience
         </h2>
         <div className="flex flex-col gap-12">
           {experiences.map((exp, index) => (
             <div
               key={index}
-              className="group flex p-8 transition duration-300 transform rounded-3xl shadow-lg border-transparent border-accent hover:bg-card"
+              className="group flex flex-col md:flex-row p-8 transition duration-300 transform rounded-3xl shadow-lg border-transparent border-accent hover:bg-card"
             >
-              <div className="text-sm font-semibold text-primary pt-1 w-1/4">
+              <div className="hidden md:block text-sm font-semibold text-primary pt-1 w-1/4">
                 <p>{exp.date}</p>
                 <p className="text-sm text-secondary mt-1">{exp.location}</p>
               </div>
-              <div className="w-3/4">
+              <div className="w-full md:w-3/4">
                 <h3 className="text-primary group-hover:text-accent transition-colors duration-300 mb-2">
                   <span className="text-xl font-bold text-primary">
                     {exp.company} ·
                   </span>
-                  <span className="text-lg font-semibold ml-2">{exp.role}</span>
+                  <span className="text-lg font-semibold ml-2 2xl:text-xl">
+                    {exp.role}
+                  </span>
                 </h3>
-                <ul className="list-disc pl-5 space-y-2 text-sm text-primary">
+                <div className="md:hidden text-sm 2xl:text-lg font-semibold text-primary mb-4">
+                  <p>{exp.date}</p>
+                  <p className="text-sm text-secondary mt-1 2xl:text-lg">
+                    {exp.location}
+                  </p>
+                </div>
+                <ul className="list-disc pl-5 space-y-2 text-sm 2xl:text-lg text-primary">
                   {exp.points.map((point, i) => (
                     <li key={i}>{point}</li>
                   ))}
