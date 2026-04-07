@@ -1,4 +1,5 @@
 import React from "react";
+import ReactGA from "react-ga4";
 
 const About = () => {
   return (
@@ -37,6 +38,9 @@ const About = () => {
           href="/Resume_Hannah_Liu.pdf"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            ReactGA.event({ category: "Conversion", action: "Clicked Resume" })
+          }
           className="inline-block px-6 py-3 text-md font-semibold text-primary bg-transparent border-2 border-accent-hover rounded-3xl transition-colors duration-300 hover:bg-accent-hover"
         >
           My Resume
