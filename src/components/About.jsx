@@ -9,10 +9,10 @@ const About = () => {
       </h2>
       <p className="text-[17px] 2xl:text-xl text-secondary">
         Hello! I'm <span className="text-accent font-bold">Hannah Liu</span>, a
-        second-year Software Engineering student at the University of Waterloo.
-        I have a strong passion for technology, problem-solving, and project
-        development. In my free time, I learn new melodies on the piano, go for
-        walks, and chat with others who share my enthusiasm for programming and
+        Software Engineering student at the University of Waterloo. I have a
+        strong passion for technology, problem-solving, and project development.
+        In my free time, I learn new melodies on the piano, go for walks, and
+        chat with others who share my enthusiasm for programming and
         problem-solving.
       </p>
       <br></br>
