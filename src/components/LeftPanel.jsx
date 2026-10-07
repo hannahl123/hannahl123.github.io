@@ -14,7 +14,7 @@ const LeftPanel = ({ activeSection }) => {
         </h1>
         <p className="mt-2 text-lg pt-1">Software Engineering Student</p>
         <p className="mt-6 text-md">
-          I am actively seeking <span className="font-bold">Fall 2026</span>{" "}
+          I am actively seeking <span className="font-bold">Summer 2027</span>{" "}
           internships where I can apply my skills and make meaningful
           contributions.{" "}
         </p>
