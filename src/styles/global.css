@@ -11,6 +11,9 @@
   --color-mint: #8be0c3;
   --color-butter: #ffd88a;
   --color-peri: #a9b8ff;
+  --color-title: #ffffff;
+  --color-error: #ff8a9a;
+  --color-on-pink: #1e1b2e;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-display: "Space Grotesk", system-ui, sans-serif;
 }
@@ -24,13 +27,50 @@ html {
   color-scheme: dark;
 }
 
+/* Light theme ("lavender haze"). Set by the head script / ThemeToggle; without JS it
+   follows the system preference. Keep the two blocks below in sync. */
+html[data-theme="light"] {
+  color-scheme: light;
+  --color-bg: #f4f1ff;
+  --color-chrome: #ebe6fb;
+  --color-card: #ffffff;
+  --color-card-border: #ddd6f3;
+  --color-text: #241f3a;
+  --color-title: #241f3a;
+  --color-muted: #6a6385;
+  --color-pink: #b8336f;
+  --color-mint: #187a5a;
+  --color-butter: #8a5a00;
+  --color-peri: #4352c4;
+  --color-error: #b42318;
+  --color-on-pink: #ffffff;
+}
+@media (prefers-color-scheme: light) {
+  html.no-js {
+    color-scheme: light;
+    --color-bg: #f4f1ff;
+    --color-chrome: #ebe6fb;
+    --color-card: #ffffff;
+    --color-card-border: #ddd6f3;
+    --color-text: #241f3a;
+    --color-title: #241f3a;
+    --color-muted: #6a6385;
+    --color-pink: #b8336f;
+    --color-mint: #187a5a;
+    --color-butter: #8a5a00;
+    --color-peri: #4352c4;
+    --color-error: #b42318;
+    --color-on-pink: #ffffff;
+  }
+}
+
 body {
   @apply bg-bg text-text font-mono antialiased;
 }
 
 ::selection {
   background: var(--color-pink);
-  color: var(--color-bg);
+  color: var(--color-on-pink);
 }
 
 /* Terminal: blinking block cursor and bunny moods (both off under reduced motion). */

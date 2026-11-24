@@ -23,7 +23,7 @@ const TONE: Record<Tone, string> = {
   pink: "text-pink",
   mint: "text-mint",
   butter: "text-butter",
-  error: "text-[#ff8a9a]",
+  error: "text-error",
 };
 
 const BUNNY = {
@@ -78,7 +78,7 @@ function BlockView({ block }: { block: Block }) {
         <div className="py-1">
           <p className="flex flex-wrap items-center gap-2">
             {job.logo && (
-              <span className="inline-flex size-5 items-center justify-center rounded bg-[#fdfbff] p-0.5">
+              <span className="inline-flex size-5 items-center justify-center rounded bg-[#fdfbff] p-0.5 ring-1 ring-card-border">
                 <img src={job.logo.src} alt={job.company} className="size-full object-contain" />
               </span>
             )}
@@ -179,7 +179,7 @@ export default function Terminal({ data, onTrack = trackResume }: Props) {
     <section aria-label="Interactive terminal" className="py-6" onClick={onSurfaceClick}>
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="font-display text-3xl font-bold text-white sm:text-4xl">
+          <p className="font-display text-3xl font-bold text-title sm:text-4xl">
             {data.profile.name} <span className="text-pink">✿</span>
           </p>
           <p className="mt-2 text-muted">welcome! type a command, or click one below ↓</p>

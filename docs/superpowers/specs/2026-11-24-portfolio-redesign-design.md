@@ -240,3 +240,17 @@ public/Resume_Hannah_Liu.pdf
 - Which easter eggs to include, beyond `sudo hire hannah`.
 - Icon library choice.
 - How the section index collapses on mobile.
+
+## Addendum (2026-11-24): light mode
+
+Hannah asked for a light mode and picked **"Lavender haze"** from mockups. This replaces
+the "dark theme only" call above.
+
+- Palette: bg `#f4f1ff`, chrome `#ebe6fb`, card `#ffffff`, border `#ddd6f3`, text/title
+  `#241f3a`, muted `#6a6385`, pink `#b8336f`, mint `#187a5a`, butter `#8a5a00`,
+  periwinkle `#4352c4`. All are ≥4.5:1 on bg and card.
+- Default theme follows the visitor's system (`prefers-color-scheme`). A ☾/☀ button next
+  to the mode switch overrides it, and the choice is stored in `localStorage` key `theme`.
+  It's set before first paint (no flash), works when storage is blocked, and the button
+  is hidden without JS (the system theme still applies through CSS).
+- The theme applies on every page; the read/terminal switch stays home-only.
