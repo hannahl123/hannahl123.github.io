@@ -24,6 +24,7 @@ export const projectSchema = z.object({
 export const jobFields = z.object({
   company: z.string().min(1),
   role: z.string().min(1),
+  team: z.string().min(1).optional(),
   location: z.string().min(1),
   start: yearMonth,
   end: yearMonth.optional(),

@@ -14,6 +14,7 @@ async function load(): Promise<SiteData> {
       id,
       company: data.company,
       role: data.role,
+      team: data.team,
       location: data.location,
       start: data.start,
       end: data.end,

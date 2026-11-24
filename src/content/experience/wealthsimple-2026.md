@@ -1,5 +1,6 @@
 ---
 company: "Wealthsimple"
+team: "Payment Cards"
 role: "Software Development Intern"
 location: "Toronto, ON"
 start: "2026-09"

@@ -13,6 +13,7 @@ export interface Job {
   id: string;
   company: string;
   role: string;
+  team?: string;
   location: string;
   start: string;
   end?: string;

@@ -13,7 +13,7 @@ const { job } = Astro.props;
     )}
     <div class="min-w-0">
       <h3 class="font-bold leading-snug"><span class="text-butter">{job.company}</span> <span class="text-muted">·</span> {job.role}</h3>
-      <p class="mt-1 text-sm text-muted"><span class="whitespace-nowrap">{job.dateLabel}</span> · <span class="whitespace-nowrap">{job.location}</span></p>
+      <p class="mt-1 text-sm text-muted">{job.team && <><span class="whitespace-nowrap text-mint">{job.team} team</span> · </>}<span class="whitespace-nowrap">{job.dateLabel}</span> · <span class="whitespace-nowrap">{job.location}</span></p>
     </div>
   </header>
   {job.points.length > 0 && (

@@ -108,5 +108,10 @@ describe("Terminal", () => {
     expect(cursor.getAttribute("aria-hidden")).toBe("true");
     expect(cursor.className).toContain("cursor-blink");
   });
-});
 
+  it("experience shows the team", async () => {
+    const { user, output } = setup();
+    await user.click(screen.getByRole("button", { name: "experience" }));
+    expect(output.textContent).toContain("Payment Cards team");
+  });
+});

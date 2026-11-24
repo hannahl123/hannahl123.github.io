@@ -36,6 +36,12 @@ describe("jobFields", () => {
     expect(job.end).toBeUndefined();
   });
 
+  it("team is optional and kept when given", () => {
+    const base = { company: "Shopify", role: "SWE Intern", location: "Toronto, ON", start: "2025-05" };
+    expect(jobFields.parse(base).team).toBeUndefined();
+    expect(jobFields.parse({ ...base, team: "Analytics Experience" }).team).toBe("Analytics Experience");
+  });
+
   it("rejects bad month format", () => {
     expect(
       jobFields.safeParse({ company: "A", role: "B", location: "C", start: "Sept 2026" }).success,

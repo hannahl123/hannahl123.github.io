@@ -1,5 +1,6 @@
 ---
 company: "Shopify"
+team: "Analytics Experience"
 role: "Software Engineering Intern"
 location: "Toronto, ON"
 start: "2025-05"

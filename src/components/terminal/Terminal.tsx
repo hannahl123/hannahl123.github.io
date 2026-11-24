@@ -85,6 +85,7 @@ function BlockView({ block }: { block: Block }) {
             <span className="text-butter">▸ {job.company}</span>
             <span>· {job.role}</span>
             <span className="text-muted">
+              {job.team && <span className="text-mint">{job.team} team · </span>}
               {job.dateLabel} · {job.location}
             </span>
           </p>

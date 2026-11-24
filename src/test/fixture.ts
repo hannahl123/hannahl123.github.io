@@ -15,7 +15,7 @@ export const fixture: SiteData = {
     },
   },
   jobs: [
-    { id: "ws", company: "Wealthsimple", role: "Software Development Intern", location: "Toronto, ON", start: "2026-09", dateLabel: "Sep 2026 – Present", points: [] },
+    { id: "ws", company: "Wealthsimple", team: "Payment Cards", role: "Software Development Intern", location: "Toronto, ON", start: "2026-09", dateLabel: "Sep 2026 – Present", points: [] },
     { id: "sh", company: "Shopify", role: "SWE Intern", location: "Toronto, ON", start: "2025-05", end: "2025-08", dateLabel: "May – Aug 2025", points: ["Did things"] },
   ],
   projects: [

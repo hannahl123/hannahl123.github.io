@@ -31,6 +31,7 @@ field is missing or a link is malformed.
    ---
    company: "Company"
    role: "Software Engineering Intern"
+   team: "Team Name"   # optional, shown as "Team Name team"
    location: "Toronto, ON"
    start: "2027-05"     # YYYY-MM
    end: "2027-08"       # leave out while it's ongoing → shows "Present"
