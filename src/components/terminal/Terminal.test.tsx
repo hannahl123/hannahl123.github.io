@@ -72,4 +72,41 @@ describe("Terminal", () => {
     const { output } = setup();
     expect(output.getAttribute("aria-live")).toBe("polite");
   });
+
+  it("clicking output with text selected does not steal focus", async () => {
+    const { user, input, output } = setup();
+    await user.type(input, "about{Enter}");
+    (input as HTMLInputElement).blur();
+    const para = within(output).getByText("Hello!");
+    const range = document.createRange();
+    range.selectNodeContents(para);
+    const sel = window.getSelection()!;
+    sel.removeAllRanges();
+    sel.addRange(range);
+    para.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    expect(document.activeElement).not.toBe(input);
+    sel.removeAllRanges();
+  });
+
+  it("tapping output on a touch device does not focus the input", async () => {
+    window.matchMedia = ((q: string) => ({ matches: q.includes("coarse"), media: q })) as never;
+    const { output, input } = setup();
+    output.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    expect(document.activeElement).not.toBe(input);
+    delete (window as { matchMedia?: unknown }).matchMedia;
+  });
+
+  it("clicking empty terminal space on desktop focuses the input", () => {
+    const { output, input } = setup();
+    output.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    expect(document.activeElement).toBe(input);
+  });
+
+  it("shows a blinking block cursor", () => {
+    setup();
+    const cursor = screen.getByTestId("cursor");
+    expect(cursor.getAttribute("aria-hidden")).toBe("true");
+    expect(cursor.className).toContain("cursor-blink");
+  });
 });
+

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type ReactNode } from "react";
 import { runCommand, type Block, type Tone } from "../../lib/terminal/commands";
 import { complete } from "../../lib/terminal/complete";
 import { trackResume } from "../../lib/analytics";
@@ -146,6 +146,15 @@ export default function Terminal({ data, onTrack = trackResume }: Props) {
     if (result.track) onTrack?.(result.track);
   };
 
+  // Click empty terminal space to type, like a real terminal, but never steal a text
+  // selection, hijack a link/button, or pop the keyboard on touch devices.
+  const onSurfaceClick = (e: MouseEvent<HTMLElement>) => {
+    if (window.getSelection()?.toString()) return;
+    if ((e.target as Element).closest?.("a, button, input")) return;
+    if (window.matchMedia?.("(pointer: coarse)").matches) return;
+    inputRef.current?.focus({ preventScroll: true });
+  };
+
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -167,7 +176,7 @@ export default function Terminal({ data, onTrack = trackResume }: Props) {
   };
 
   return (
-    <section aria-label="Interactive terminal" className="py-6" onClick={() => inputRef.current?.focus({ preventScroll: true })}>
+    <section aria-label="Interactive terminal" className="py-6" onClick={onSurfaceClick}>
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="font-display text-3xl font-bold text-white sm:text-4xl">
@@ -211,17 +220,26 @@ export default function Terminal({ data, onTrack = trackResume }: Props) {
         <label className="mt-3 flex items-center gap-2">
           <span className="sr-only">Terminal command</span>
           <PromptLine />
-          <input
-            ref={inputRef}
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            onKeyDown={onKeyDown}
-            autoComplete="off"
-            autoCapitalize="off"
-            spellCheck={false}
-            enterKeyHint="go"
-            className="min-w-0 flex-1 bg-transparent text-text caret-pink outline-none"
-          />
+          <span className="relative min-w-0 flex-1">
+            <input
+              ref={inputRef}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              onKeyDown={onKeyDown}
+              autoComplete="off"
+              autoCapitalize="off"
+              spellCheck={false}
+              enterKeyHint="go"
+              className={`w-full bg-transparent text-text outline-none ${value ? "caret-pink" : "caret-transparent"}`}
+            />
+            {!value && (
+              <span
+                data-testid="cursor"
+                aria-hidden="true"
+                className="cursor-blink pointer-events-none absolute top-1/2 left-0 h-[1.1em] w-[0.6em] -translate-y-1/2 bg-pink"
+              />
+            )}
+          </span>
         </label>
         <div ref={endRef} />
       </div>
