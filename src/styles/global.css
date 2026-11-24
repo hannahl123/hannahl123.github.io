@@ -15,7 +15,12 @@
   --font-display: "Space Grotesk", system-ui, sans-serif;
 }
 
+:root {
+  --topbar-h: 0px;
+}
+
 html {
+  scroll-behavior: smooth;
   color-scheme: dark;
 }
 
@@ -26,4 +31,16 @@ body {
 ::selection {
   background: var(--color-pink);
   color: var(--color-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }

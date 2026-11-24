@@ -1,0 +1,6 @@
+---
+interface Props { cmd: string; as?: "h2" | "p" }
+const { cmd, as: Tag = "h2" } = Astro.props;
+---
+
+<Tag class="text-sm md:text-base font-normal"><span class="text-pink">hannah</span><span class="text-muted">@</span><span class="text-mint">waterloo</span> <span class="text-muted">~ $</span> <span class="text-text">{cmd}</span></Tag>

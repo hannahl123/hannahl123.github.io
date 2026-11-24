@@ -1,5 +1,30 @@
 ---
 import Base from "../layouts/Base.astro";
+import Whoami from "../components/read/Whoami.astro";
+import About from "../components/read/About.astro";
+import Work from "../components/read/Work.astro";
+import Projects from "../components/read/Projects.astro";
+import Contact from "../components/read/Contact.astro";
+import Footer from "../components/read/Footer.astro";
+import SectionIndex from "../components/read/SectionIndex.astro";
+import { loadSiteData } from "../lib/site-data";
+
+const data = await loadSiteData();
+const { profile, jobs, projects, lastUpdated } = data;
+const featured = projects.filter((p) => p.featured);
 ---
 
-<Base><h1 class="font-display text-pink">Hannah Liu</h1></Base>
+<Base description={`${profile.name} — ${profile.tagline}. ${profile.status}.`}>
+  <main id="read" class="mx-auto max-w-3xl px-5 pb-4">
+    <SectionIndex />
+    <div class="space-y-16">
+      <Whoami profile={profile} />
+      <About paragraphs={profile.about} />
+      <Work jobs={jobs} />
+      <Projects projects={featured} total={projects.length} />
+      <Contact profile={profile} />
+    </div>
+    <Footer lastUpdated={lastUpdated} />
+  </main>
+  <div id="terminal-root" class="mx-auto max-w-3xl px-5"></div>
+</Base>

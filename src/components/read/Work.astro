@@ -1,0 +1,12 @@
+---
+import Prompt from "./Prompt.astro";
+import JobCard from "./JobCard.astro";
+import type { Job } from "../../lib/types";
+interface Props { jobs: Job[] }
+const { jobs } = Astro.props;
+---
+
+<section id="work" class="scroll-mt-24">
+  <Prompt cmd="cat work.log" />
+  <div class="mt-4 space-y-4">{jobs.map((job) => <JobCard job={job} />)}</div>
+</section>

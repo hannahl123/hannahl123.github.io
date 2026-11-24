@@ -1,0 +1,12 @@
+---
+import Prompt from "./Prompt.astro";
+interface Props { paragraphs: string[] }
+const { paragraphs } = Astro.props;
+---
+
+<section id="about" class="scroll-mt-24">
+  <Prompt cmd="cat about.md" />
+  <div class="mt-4 space-y-4 leading-relaxed text-text/90">
+    {paragraphs.map((p) => <p>{p}</p>)}
+  </div>
+</section>

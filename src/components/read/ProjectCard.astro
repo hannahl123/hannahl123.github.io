@@ -1,0 +1,16 @@
+---
+import ProjectLinks from "./ProjectLinks.astro";
+import type { Project } from "../../lib/types";
+interface Props { project: Project }
+const { project } = Astro.props;
+---
+
+<article data-project class="flex flex-col rounded-xl border border-card-border bg-card p-5 transition hover:border-mint/60">
+  <h3 class="font-bold text-mint">{project.slug}/</h3>
+  <p class="mt-1 text-xs text-muted">{project.title}</p>
+  <p class="mt-3 flex-1 text-sm leading-relaxed text-text/90">{project.description}</p>
+  {project.tags.length > 0 && (
+    <ul class="mt-3 flex flex-wrap gap-1.5">{project.tags.map((t) => <li class="rounded-full border border-card-border px-2 py-0.5 text-xs text-muted">{t}</li>)}</ul>
+  )}
+  <div class="mt-4"><ProjectLinks links={project.links} title={project.title} /></div>
+</article>

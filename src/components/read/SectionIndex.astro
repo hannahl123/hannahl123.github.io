@@ -1,0 +1,31 @@
+---
+const items = ["about", "work", "projects", "contact"];
+---
+
+<nav aria-label="Sections" data-section-index
+  class="sticky top-[var(--topbar-h)] z-10 -mx-5 overflow-x-auto bg-bg/90 px-5 py-2 backdrop-blur lg:fixed lg:top-28 lg:right-8 lg:mx-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+  <ul class="flex gap-4 text-sm lg:flex-col lg:gap-2 lg:text-right">
+    {items.map((id) => (
+      <li><a href={`#${id}`} class="whitespace-nowrap text-muted transition hover:text-pink aria-[current=true]:text-pink">~/{id}</a></li>
+    ))}
+  </ul>
+</nav>
+
+<script>
+  const links = [...document.querySelectorAll<HTMLAnchorElement>("[data-section-index] a")];
+  const byId = new Map(links.map((a) => [a.hash.slice(1), a]));
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        links.forEach((a) => a.removeAttribute("aria-current"));
+        byId.get(e.target.id)?.setAttribute("aria-current", "true");
+      }
+    },
+    { rootMargin: "-30% 0px -60% 0px" },
+  );
+  byId.forEach((_, id) => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>

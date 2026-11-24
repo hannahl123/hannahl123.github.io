@@ -1,0 +1,19 @@
+---
+import Base from "../layouts/Base.astro";
+import Prompt from "../components/read/Prompt.astro";
+import ProjectCard from "../components/read/ProjectCard.astro";
+import Footer from "../components/read/Footer.astro";
+import { loadSiteData } from "../lib/site-data";
+
+const { profile, projects, lastUpdated } = await loadSiteData();
+---
+
+<Base title={`Projects · ${profile.name}`} description={`Everything ${profile.name} has built.`}>
+  <main class="mx-auto max-w-5xl px-5 pt-8">
+    <a href="/" class="text-pink underline-offset-4 hover:underline">← cd ..</a>
+    <div class="mt-6"><Prompt cmd="ls -a projects/" as="p" /></div>
+    <h1 class="mt-3 font-display text-3xl font-bold text-white">all projects <span class="text-mint">({projects.length})</span></h1>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{projects.map((p) => <ProjectCard project={p} />)}</div>
+    <Footer lastUpdated={lastUpdated} />
+  </main>
+</Base>

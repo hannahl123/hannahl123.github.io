@@ -1,0 +1,21 @@
+---
+import Icon from "../Icon.astro";
+import type { LinkKind, Project } from "../../lib/types";
+interface Props { links: Project["links"]; title: string }
+const { links, title } = Astro.props;
+const LABELS: Record<LinkKind, string> = { github: "GitHub", youtube: "YouTube", figma: "Figma", devpost: "Devpost", link: "Website" };
+const kinds = (Object.keys(LABELS) as LinkKind[]).filter((k) => links[k]);
+---
+
+{kinds.length > 0 && (
+  <ul class="flex gap-1">
+    {kinds.map((k) => (
+      <li>
+        <a href={links[k]} target="_blank" rel="noopener noreferrer" aria-label={`${title} on ${LABELS[k]}`} title={LABELS[k]}
+          class="inline-flex size-8 items-center justify-center rounded-md text-muted transition hover:bg-bg hover:text-pink focus-visible:outline-2 focus-visible:outline-pink">
+          <Icon name={k} class="size-[18px]" />
+        </a>
+      </li>
+    ))}
+  </ul>
+)}
