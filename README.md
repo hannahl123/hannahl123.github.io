@@ -1,16 +1,29 @@
-# React + Vite
+# hannahl123.github.io
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Hannah Liu's portfolio: a cute little terminal ✿. It has a **read** mode (a normal
+scrolling page, and the default) and an interactive **terminal** mode
+(`help`, `experience`, `open reflect`, `sudo hire hannah`, …). Both modes are built
+from the same content files.
 
-Currently, two official plugins are available:
+Built with [Astro](https://astro.build), React (terminal only), and Tailwind CSS.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Develop
 
-## React Compiler
+```sh
+npm install
+npm run dev      # http://localhost:4321
+npm test         # unit tests (Vitest)
+npm run check    # type-check
+npm run build    # production build → dist/ (also validates all content)
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Update content
 
-## Expanding the ESLint configuration
+See [CONTENT.md](CONTENT.md). Jobs, projects, bio and links live in `src/content/`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Deploy
+
+Pushing to `main` runs `.github/workflows/deploys.yml`, which tests, builds and
+publishes to GitHub Pages. Other branches never deploy.
+
+`old-website/` is the original HTML/CSS version, kept for history.
