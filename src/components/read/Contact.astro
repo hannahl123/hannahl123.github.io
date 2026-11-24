@@ -1,0 +1,13 @@
+---
+import Prompt from "./Prompt.astro";
+import SocialLinks from "./SocialLinks.astro";
+import type { Profile } from "../../lib/types";
+interface Props { profile: Profile }
+const { profile } = Astro.props;
+---
+
+<section id="contact" class="scroll-mt-24">
+  <Prompt cmd="contact" />
+  <p class="mt-4">say hi! <span class="text-pink">✿</span> <span class="text-muted">I'm always happy to chat about internships, projects, or piano.</span></p>
+  <div class="mt-4"><SocialLinks profile={profile} /></div>
+</section>

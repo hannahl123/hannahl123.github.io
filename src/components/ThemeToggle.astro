@@ -1,0 +1,37 @@
+<button type="button" data-theme-btn data-requires-js aria-label="Switch to light theme"
+  class="inline-flex size-7 items-center justify-center rounded-full border border-card-border text-sm text-text transition hover:border-pink hover:text-pink focus-visible:outline-2 focus-visible:outline-pink">
+  <span aria-hidden="true" data-theme-icon>☀</span>
+</button>
+
+<script>
+  import { readTheme, writeTheme, type Theme } from "../lib/theme";
+
+  const root = document.documentElement;
+  const btn = document.querySelector<HTMLButtonElement>("[data-theme-btn]");
+  const icon = btn?.querySelector("[data-theme-icon]");
+  const system = window.matchMedia("(prefers-color-scheme: dark)");
+
+  const apply = (theme: Theme) => {
+    root.dataset.theme = theme;
+    const next = theme === "dark" ? "light" : "dark";
+    btn?.setAttribute("aria-label", `Switch to ${next} theme`);
+    if (icon) icon.textContent = theme === "dark" ? "☀" : "☾";
+  };
+
+  const storage = (() => {
+    try {
+      return localStorage;
+    } catch {
+      return undefined;
+    }
+  })();
+
+  apply(readTheme(storage, system.matches));
+  btn?.addEventListener("click", () => {
+    const next: Theme = root.dataset.theme === "dark" ? "light" : "dark";
+    writeTheme(next, storage);
+    apply(next);
+  });
+  // Follow live system changes until the visitor picks a theme themselves.
+  system.addEventListener("change", () => apply(readTheme(storage, system.matches)));
+</script>

@@ -1,0 +1,32 @@
+---
+import Icon from "../Icon.astro";
+import type { Profile } from "../../lib/types";
+interface Props { profile: Profile; withResume?: boolean }
+const { profile, withResume = true } = Astro.props;
+const { socials } = profile;
+const items = [
+  { name: "github", label: "GitHub", href: socials.github },
+  { name: "linkedin", label: "LinkedIn", href: socials.linkedin },
+  { name: "email", label: "Email", href: `mailto:${socials.email}` },
+  { name: "instagram", label: "Instagram", href: socials.instagram },
+] as const;
+---
+
+<ul class="flex flex-wrap items-center gap-2">
+  {withResume && (
+    <li>
+      <a href={profile.resume} target="_blank" rel="noopener noreferrer" data-track="resume"
+        class="inline-flex items-center gap-2 rounded-full bg-pink px-4 py-1.5 text-sm font-bold text-on-pink transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink">
+        <Icon name="resume" class="size-4" /> resume.pdf
+      </a>
+    </li>
+  )}
+  {items.map((i) => (
+    <li>
+      <a href={i.href} target={i.name === "email" ? undefined : "_blank"} rel="noopener noreferrer" aria-label={i.label}
+        class="inline-flex size-9 items-center justify-center rounded-full border border-card-border text-text transition hover:border-pink hover:text-pink focus-visible:outline-2 focus-visible:outline-pink">
+        <Icon name={i.name} class="size-[18px]" />
+      </a>
+    </li>
+  ))}
+</ul>

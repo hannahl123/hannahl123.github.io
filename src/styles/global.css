@@ -1,0 +1,288 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #1e1b2e;
+  --color-chrome: #17142a;
+  --color-card: #231f37;
+  --color-card-border: #3a3460;
+  --color-text: #e8e3ff;
+  --color-muted: #8f87b0;
+  --color-pink: #ff9ecf;
+  --color-mint: #8be0c3;
+  --color-butter: #ffd88a;
+  --color-peri: #a9b8ff;
+  --color-title: #ffffff;
+  --color-error: #ff8a9a;
+  --color-on-pink: #1e1b2e;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+}
+
+:root {
+  --topbar-h: 2.75rem;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+/* Light theme ("lavender haze"). Set by the head script / ThemeToggle; without JS it
+   follows the system preference. Keep the two blocks below in sync. */
+html[data-theme="light"] {
+  color-scheme: light;
+  --color-bg: #f4f1ff;
+  --color-chrome: #ebe6fb;
+  --color-card: #ffffff;
+  --color-card-border: #ddd6f3;
+  --color-text: #241f3a;
+  --color-title: #241f3a;
+  --color-muted: #6a6385;
+  --color-pink: #b8336f;
+  --color-mint: #187a5a;
+  --color-butter: #8a5a00;
+  --color-peri: #4352c4;
+  --color-error: #b42318;
+  --color-on-pink: #ffffff;
+}
+@media (prefers-color-scheme: light) {
+  html.no-js {
+    color-scheme: light;
+    --color-bg: #f4f1ff;
+    --color-chrome: #ebe6fb;
+    --color-card: #ffffff;
+    --color-card-border: #ddd6f3;
+    --color-text: #241f3a;
+    --color-title: #241f3a;
+    --color-muted: #6a6385;
+    --color-pink: #b8336f;
+    --color-mint: #187a5a;
+    --color-butter: #8a5a00;
+    --color-peri: #4352c4;
+    --color-error: #b42318;
+    --color-on-pink: #ffffff;
+  }
+}
+
+body {
+  @apply bg-bg text-text font-mono antialiased;
+}
+
+::selection {
+  background: var(--color-pink);
+  color: var(--color-on-pink);
+}
+
+/* Terminal: blinking block cursor and bunny moods (both off under reduced motion). */
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+.cursor-blink {
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes bunny-hop {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-4px); }
+}
+@keyframes bunny-tilt {
+  0%, 100% { transform: rotate(0); }
+  30% { transform: rotate(-4deg); }
+  70% { transform: rotate(4deg); }
+}
+.bunny {
+  display: inline-block;
+  transform-origin: bottom center;
+}
+.bunny[data-mood="love"],
+.bunny[data-mood="happy"] {
+  animation: bunny-hop 0.6s ease-out 2;
+}
+.bunny[data-mood="confused"] {
+  animation: bunny-tilt 0.8s ease-in-out 1;
+}
+
+/* Window controls (same-document view transitions, so only what's on screen animates).
+   minimize: the page shrinks into the dock pill · restore: it grows back out of it
+   close: the page fades into the goodbye screen · reopen: the reverse. */
+html[data-window="minimized"] #window,
+html[data-window="closed"] #window {
+  visibility: hidden;
+}
+@keyframes win-shrink {
+  to {
+    transform: scale(0.04);
+    opacity: 0;
+  }
+}
+@keyframes win-grow {
+  from {
+    transform: scale(0.04);
+    opacity: 0;
+  }
+}
+@keyframes win-fade-out {
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+@keyframes win-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+html[data-vt]::view-transition-old(root),
+html[data-vt]::view-transition-new(root) {
+  transform-origin: 50% calc(100% - 44px); /* the dock pill */
+  animation: none;
+}
+html[data-vt="minimize"]::view-transition-old(root) {
+  z-index: 1;
+  animation: win-shrink 0.4s cubic-bezier(0.55, 0, 0.75, 0) forwards;
+}
+html[data-vt="restore"]::view-transition-new(root) {
+  animation: win-grow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html[data-vt="close"]::view-transition-old(root) {
+  z-index: 1;
+  animation: win-fade-out 0.3s ease-in forwards;
+}
+html[data-vt="close"]::view-transition-new(root) {
+  animation: win-fade-in 0.35s ease-out 0.15s both;
+}
+/* reopen grows the page back out of the "reopen" button, like restoring from the dock */
+html[data-vt="reopen"]::view-transition-new(root) {
+  transform-origin: var(--reopen-x, 50%) var(--reopen-y, 50%);
+  animation: win-grow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html[data-vt="reopen"]::view-transition-old(root) {
+  animation: win-fade-out 0.18s ease-out forwards; /* clear the goodbye screen quickly */
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.6);
+  }
+}
+#dock:not([hidden]) {
+  animation: pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s both;
+}
+
+/* Thin pastel scrollbar for the terminal window. */
+.terminal-scroll {
+  /* scrolling past the end of the terminal shouldn't move or bounce the page */
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-card-border) transparent;
+}
+.terminal-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.terminal-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-card-border);
+  border-radius: 8px;
+}
+.terminal-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--color-pink);
+}
+
+/* Bubble transition between pages (cross-document view transitions). */
+@view-transition {
+  navigation: auto;
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes bubble {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0.4);
+  }
+  25% {
+    opacity: 0.85;
+  }
+  80% {
+    opacity: 0.7;
+    transform: translate(-50%, calc(var(--rise) * -0.85)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, calc(var(--rise) * -1)) scale(1.35);
+  }
+}
+html:not([data-vt])::view-transition-old(root) {
+  animation: page-out 0.3s ease-in both;
+}
+html:not([data-vt])::view-transition-new(root) {
+  animation: page-in 0.4s ease-out 0.4s both;
+}
+.bubble-layer {
+  view-transition-name: bubbles;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+::view-transition-group(bubbles),
+::view-transition-new(bubbles) {
+  animation: none;
+}
+.bubble-layer span {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  /* soap-bubble look: bright highlight, see-through middle, tinted rim */
+  background: radial-gradient(
+    circle at 32% 28%,
+    rgb(255 255 255 / 0.95) 0 9%,
+    color-mix(in srgb, var(--c) 30%, transparent) 30%,
+    color-mix(in srgb, var(--c) 18%, transparent) 62%,
+    color-mix(in srgb, var(--c) 55%, transparent) 100%
+  );
+  border: 1.5px solid color-mix(in srgb, var(--c) 75%, transparent);
+  opacity: 0;
+  animation: bubble 0.75s ease-out var(--delay) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Modes: set on <html> by the inline head script and ModeToggle. */
+.no-js [data-requires-js] {
+  display: none !important;
+}
+[data-mode="terminal"] #read,
+[data-mode="terminal"] [data-section-index] {
+  display: none;
+}
+[data-mode="read"] #terminal-root {
+  display: none;
+}
+html[data-mode="terminal"],
+html[data-mode="terminal"] body {
+  overscroll-behavior: none;
+}

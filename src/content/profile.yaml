@@ -1,0 +1,12 @@
+- id: main
+  name: "Hannah Liu"
+  tagline: "Software Engineering @ UWaterloo"
+  status: "open to summer 2027 internships"
+  about:
+    - "I'm a Software Engineering student at the University of Waterloo who loves building things people actually enjoy using. I'm currently interning at Wealthsimple on insurance and credit card systems, after two internships at Shopify working on analytics for 2M+ merchants. Outside of code, you'll find me learning new melodies on the piano, crocheting, or out on a long walk."
+  resume: "/Resume_Hannah_Liu.pdf"
+  socials:
+    github: "https://github.com/hannahl123"
+    linkedin: "https://www.linkedin.com/in/hannah-liu2006/"
+    email: "liu.hannah136@gmail.com"
+    instagram: "https://www.instagram.com/hannahliu136/"

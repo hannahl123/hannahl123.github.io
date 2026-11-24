@@ -1,0 +1,24 @@
+---
+import type { Job } from "../../lib/types";
+interface Props { job: Job }
+const { job } = Astro.props;
+---
+
+<article class="rounded-xl border border-card-border bg-card p-5 transition hover:border-pink/60">
+  <header class="flex items-start gap-3">
+    {job.logo && (
+      <span class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#fdfbff] p-1.5 ring-1 ring-card-border">
+        <img src={job.logo.src} width={job.logo.width} height={job.logo.height} alt={job.company} class="size-full object-contain" loading="lazy" />
+      </span>
+    )}
+    <div class="min-w-0">
+      <h3 class="font-bold leading-snug"><span class="text-butter">{job.company}</span> <span class="text-muted">·</span> {job.role}</h3>
+      <p class="mt-1 text-sm text-muted">{job.team && <><span class="whitespace-nowrap text-mint">{job.team} team</span> · </>}<span class="whitespace-nowrap">{job.dateLabel}</span> · <span class="whitespace-nowrap">{job.location}</span></p>
+    </div>
+  </header>
+  {job.points.length > 0 && (
+    <ul class="mt-4 space-y-2 text-sm leading-relaxed text-text/90">
+      {job.points.map((p) => <li class="flex gap-2"><span class="text-mint" aria-hidden="true">▸</span><span>{p}</span></li>)}
+    </ul>
+  )}
+</article>

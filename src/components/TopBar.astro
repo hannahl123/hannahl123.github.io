@@ -1,0 +1,61 @@
+---
+import ModeToggle from "./ModeToggle.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+interface Props { showToggle?: boolean }
+const { showToggle = false } = Astro.props;
+---
+
+<header class="sticky top-0 z-20 flex h-[var(--topbar-h)] items-center gap-2 border-b border-card-border/60 bg-chrome/95 px-4 backdrop-blur">
+  <span class="flex items-center gap-1.5">
+    <button type="button" data-window-btn="close" disabled aria-label="Close window" title="Close"
+      class="group relative size-3 rounded-full bg-pink transition enabled:hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink">
+      <span aria-hidden="true" class="pointer-events-none absolute inset-0 flex items-center justify-center text-[8px] leading-none font-bold text-chrome opacity-0 transition group-enabled:group-hover:opacity-80 group-focus-visible:opacity-80">×</span>
+    </button>
+    <button type="button" data-window-btn="minimize" disabled aria-label="Minimize window" title="Minimize"
+      class="group relative size-3 rounded-full bg-butter transition enabled:hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-butter">
+      <span aria-hidden="true" class="pointer-events-none absolute inset-0 flex items-center justify-center text-[9px] leading-none font-bold text-chrome opacity-0 transition group-enabled:group-hover:opacity-80 group-focus-visible:opacity-80">–</span>
+    </button>
+    <button type="button" data-fullscreen-btn disabled aria-label="Enter full screen" title="Full screen"
+      class="group relative size-3 rounded-full bg-mint transition enabled:hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint">
+      <span aria-hidden="true" class="pointer-events-none absolute inset-0 flex items-center justify-center text-[8px] leading-none font-bold text-chrome opacity-0 transition group-enabled:group-hover:opacity-80 group-focus-visible:opacity-80">⤢</span>
+    </button>
+  </span>
+  <a href="/" class="ml-3 hidden truncate text-xs text-muted hover:text-pink sm:block">hannah@waterloo — ~/portfolio</a>
+  <div class="ml-auto flex items-center gap-2">
+    {showToggle && <ModeToggle />}
+    <ThemeToggle />
+  </div>
+</header>
+
+<script>
+  // The green "window" dot toggles real full screen, like a macOS window. Browsers that
+  // can't fullscreen a page (e.g. iPhone Safari) keep it as a plain decorative dot.
+  type FsDoc = Document & { webkitFullscreenElement?: Element; webkitExitFullscreen?: () => Promise<void>; webkitFullscreenEnabled?: boolean };
+  type FsEl = HTMLElement & { webkitRequestFullscreen?: () => Promise<void> };
+
+  const doc = document as FsDoc;
+  const root = document.documentElement as FsEl;
+  const btn = document.querySelector<HTMLButtonElement>("[data-fullscreen-btn]");
+  const enabled = doc.fullscreenEnabled || doc.webkitFullscreenEnabled;
+  const current = () => doc.fullscreenElement ?? doc.webkitFullscreenElement ?? null;
+
+  if (btn && !enabled) {
+    btn.disabled = true;
+    btn.removeAttribute("title");
+    btn.setAttribute("aria-hidden", "true");
+    btn.tabIndex = -1;
+  } else if (btn) {
+    btn.disabled = false;
+    const sync = () => btn.setAttribute("aria-label", current() ? "Exit full screen" : "Enter full screen");
+    btn.addEventListener("click", async () => {
+      try {
+        if (current()) await (doc.exitFullscreen?.() ?? doc.webkitExitFullscreen?.());
+        else await (root.requestFullscreen?.() ?? root.webkitRequestFullscreen?.());
+      } catch {
+        // the browser refused (e.g. permissions policy); nothing to do
+      }
+    });
+    document.addEventListener("fullscreenchange", sync);
+    document.addEventListener("webkitfullscreenchange", sync);
+  }
+</script>

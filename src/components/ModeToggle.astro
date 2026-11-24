@@ -1,0 +1,36 @@
+<div role="group" aria-label="View mode" data-requires-js class="flex rounded-full bg-card-border/60 p-0.5 text-xs">
+  <button type="button" data-mode-btn="read" aria-pressed="true"
+    class="whitespace-nowrap rounded-full px-3 py-1 text-muted transition aria-pressed:bg-pink aria-pressed:font-bold aria-pressed:text-on-pink focus-visible:outline-2 focus-visible:outline-pink">
+    📖 read
+  </button>
+  <button type="button" data-mode-btn="terminal" aria-pressed="false"
+    class="whitespace-nowrap rounded-full px-3 py-1 text-muted transition aria-pressed:bg-pink aria-pressed:font-bold aria-pressed:text-on-pink focus-visible:outline-2 focus-visible:outline-pink">
+    &gt;_ terminal
+  </button>
+</div>
+
+<script>
+  import { writeMode, type Mode } from "../lib/mode";
+  import { track } from "../lib/analytics";
+
+  const root = document.documentElement;
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>("[data-mode-btn]")];
+
+  const sync = () => {
+    for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset.modeBtn === root.dataset.mode));
+  };
+
+  for (const b of buttons) {
+    b.addEventListener("click", () => {
+      const mode = b.dataset.modeBtn as Mode;
+      if (root.dataset.mode === mode) return;
+      root.dataset.mode = mode;
+      writeMode(mode);
+      track("Toggled Mode", { event_label: mode });
+      sync();
+      window.scrollTo(0, 0);
+      window.dispatchEvent(new CustomEvent<Mode>("modechange", { detail: mode }));
+    });
+  }
+  sync();
+</script>

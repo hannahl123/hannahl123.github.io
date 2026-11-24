@@ -1,0 +1,36 @@
+---
+const items = [
+  { label: "about", href: "#about" },
+  { label: "work", href: "#work" },
+  { label: "projects", href: "/projects" },
+  { label: "contact", href: "#contact" },
+];
+---
+
+<nav aria-label="Sections" data-section-index
+  class="sticky top-[var(--topbar-h)] z-10 -mx-5 overflow-x-auto bg-bg/90 px-5 py-2 backdrop-blur xl:fixed xl:top-28 xl:right-8 xl:mx-0 xl:bg-transparent xl:p-0 xl:backdrop-blur-none">
+  <ul class="flex gap-4 text-sm xl:flex-col xl:gap-2 xl:text-right">
+    {items.map(({ label, href }) => (
+      <li><a href={href} class="whitespace-nowrap text-muted transition hover:text-pink aria-[current=true]:text-pink">~/{label}{href.startsWith("/") && " ↗"}</a></li>
+    ))}
+  </ul>
+</nav>
+
+<script>
+  const links = [...document.querySelectorAll<HTMLAnchorElement>("[data-section-index] a")].filter((a) => a.hash);
+  const byId = new Map(links.map((a) => [a.hash.slice(1), a]));
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        links.forEach((a) => a.removeAttribute("aria-current"));
+        byId.get(e.target.id)?.setAttribute("aria-current", "true");
+      }
+    },
+    { rootMargin: "-30% 0px -60% 0px" },
+  );
+  byId.forEach((_, id) => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>

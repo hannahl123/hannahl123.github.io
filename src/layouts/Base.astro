@@ -1,0 +1,95 @@
+---
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/700.css";
+import "@fontsource/space-grotesk/700.css";
+import "../styles/global.css";
+import TopBar from "../components/TopBar.astro";
+import WindowChrome from "../components/WindowChrome.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Show the read/terminal toggle (home page only). */
+  modes?: boolean;
+}
+
+const {
+  modes = false,
+  title = "Hannah Liu",
+  description = "Hannah Liu — Software Engineering student at the University of Waterloo.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="no-js" data-mode="read">
+  <head>
+    <meta charset="UTF-8" />
+    <script is:inline define:vars={{ modes }}>
+      // Runs before first paint: mark JS available and restore the last mode (no flash).
+      const root = document.documentElement;
+      root.classList.replace("no-js", "js");
+      let theme = null;
+      try {
+        theme = localStorage.getItem("theme");
+      } catch {}
+      if (theme !== "light" && theme !== "dark") {
+        theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      root.dataset.theme = theme;
+
+      // Bubble page transition: the old page fades out while pastel bubbles float up and
+      // pop, then the new page fades in. Browsers without cross-document view transitions
+      // (or with reduced motion) just navigate normally.
+      addEventListener("pagereveal", (e) => {
+        if (!e.viewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const layer = document.createElement("div");
+        layer.className = "bubble-layer";
+        layer.setAttribute("aria-hidden", "true");
+        const colors = ["#ff9ecf", "#8be0c3", "#ffd88a", "#a9b8ff"];
+        for (let i = 0; i < 18; i++) {
+          const b = document.createElement("span");
+          const size = 14 + Math.random() * 46;
+          b.style.cssText =
+            "--size:" + size + "px;--x:" + Math.random() * 100 + "vw;--y:" + (40 + Math.random() * 60) +
+            "vh;--rise:" + (20 + Math.random() * 35) + "vh;--delay:" + Math.random() * 220 + "ms;--c:" + colors[i % colors.length];
+          layer.append(b);
+        }
+        document.documentElement.append(layer);
+        e.viewTransition.finished.finally(() => layer.remove());
+      });
+      try {
+        if (modes && localStorage.getItem("mode") === "terminal") root.dataset.mode = "terminal";
+      } catch {}
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-2VXZBYZCJQ"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-2VXZBYZCJQ");
+    </script>
+  </head>
+  <body class="min-h-screen">
+    <div id="window">
+      <TopBar showToggle={modes} />
+      <slot />
+    </div>
+    <WindowChrome />
+    <script>
+      import { trackResume } from "../lib/analytics";
+      document.addEventListener("click", (e) => {
+        if ((e.target as Element | null)?.closest?.('[data-track="resume"]')) trackResume();
+      });
+    </script>
+  </body>
+</html>

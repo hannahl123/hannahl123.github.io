@@ -1,0 +1,91 @@
+---
+// Playful window controls: yellow minimizes the page into a dock pill, red "closes" it
+// into a goodbye screen. Both are one click to undo, and a reload always starts open.
+---
+
+<button type="button" id="dock" aria-label="Restore window" hidden
+  class="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full border border-card-border bg-card px-5 py-2 text-sm text-text shadow-lg transition hover:border-pink hover:text-pink focus-visible:outline-2 focus-visible:outline-pink">
+  <span class="text-pink">✿</span> hannah.sh
+</button>
+
+<section id="goodbye" aria-label="Session closed" hidden
+  class="fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 bg-bg px-6 text-center">
+  <p class="text-muted">[process completed]</p>
+  <pre aria-hidden="true" class="text-left text-lg leading-tight text-pink">{"   _(\\_/)\n  ( •ᴗ• )/  bye! ✿"}</pre>
+  <p class="text-text">thanks for stopping by!</p>
+  <div class="flex flex-wrap items-center justify-center gap-3">
+    <button type="button" id="reopen"
+      class="rounded-full border border-card-border px-5 py-2 text-sm text-text transition hover:border-pink hover:text-pink focus-visible:outline-2 focus-visible:outline-pink">
+      reopen
+    </button>
+    <a href="/Resume_Hannah_Liu.pdf" target="_blank" rel="noopener noreferrer" data-track="resume"
+      class="rounded-full bg-pink px-5 py-2 text-sm font-bold text-on-pink transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink">
+      actually, see my resume →
+    </a>
+  </div>
+</section>
+
+<script>
+  type WindowState = "open" | "minimized" | "closed";
+
+  const root = document.documentElement;
+  const win = document.getElementById("window")!;
+  const dock = document.getElementById("dock")!;
+  const goodbye = document.getElementById("goodbye")!;
+  const reopen = document.getElementById("reopen")!;
+  const btn = (name: string) => document.querySelector<HTMLButtonElement>(`[data-window-btn="${name}"]`);
+  type Doc = Document & { startViewTransition?: (cb: () => void) => { finished: Promise<void> } };
+
+  function apply(state: WindowState) {
+    root.dataset.window = state;
+    win.inert = state !== "open";
+    dock.hidden = state !== "minimized";
+    goodbye.hidden = state !== "closed";
+  }
+
+  function set(state: WindowState) {
+    const prev = (root.dataset.window as WindowState) || "open";
+    if (prev === state) return;
+    const kind =
+      state === "minimized" ? "minimize" : state === "closed" ? "close" : prev === "minimized" ? "restore" : "reopen";
+    const focus = () =>
+      (state === "minimized"
+        ? dock
+        : state === "closed"
+          ? reopen
+          : prev === "closed"
+            ? btn("close")
+            : btn("minimize")
+      )?.focus({ preventScroll: true });
+
+    const doc = document as Doc;
+    if (!doc.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      apply(state);
+      focus();
+      return;
+    }
+    if (kind === "reopen") {
+      const r = reopen.getBoundingClientRect();
+      root.style.setProperty("--reopen-x", `${r.left + r.width / 2}px`);
+      root.style.setProperty("--reopen-y", `${r.top + r.height / 2}px`);
+    }
+    root.dataset.vt = kind;
+    const t = doc.startViewTransition(() => apply(state));
+    t.finished.finally(() => {
+      delete root.dataset.vt;
+      focus();
+    });
+  }
+
+  for (const name of ["minimize", "close"]) {
+    const b = btn(name);
+    if (b) b.disabled = false;
+  }
+  btn("minimize")?.addEventListener("click", () => set("minimized"));
+  btn("close")?.addEventListener("click", () => set("closed"));
+  dock.addEventListener("click", () => set("open"));
+  reopen.addEventListener("click", () => set("open"));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && root.dataset.window && root.dataset.window !== "open") set("open");
+  });
+</script>
