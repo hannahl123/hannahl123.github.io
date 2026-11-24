@@ -105,7 +105,7 @@ Deleted: `index.html`, `vite.config.js`, `tailwind.config.cjs`, `postcss.config.
 - Produces (in `schemas.ts`, built with `z` from `astro/zod`):
   - `linksSchema`: an object with optional `github`, `youtube`, `figma`, `devpost`, `link`, each `z.string().url()`. The schema is `.strict()` (unknown keys fail).
   - `projectSchema`: `{ title: string; description: string; featured: boolean (default false); order: number; tags: string[] (default []); links: linksSchema (default {}) }`.
-  - `jobFields`: `{ company: string; role: string; location: string; start: /^\d{4}-\d{2}$/; end?: /^\d{4}-\d{2}$/; points: string[] (default []) }`. There is no `logo` here; `content.config.ts` extends it with `logo: image()`.
+  - `jobFields`: `{ company: string; role: string; location: string; start: /^\d{4}-\d{2}$/; end?: /^\d{4}-\d{2}$/; points: string[] (default []) }`. There is no `logo` here; `content.config.ts` extends it with an optional `logo: image()`.
   - `profileSchema`: `{ name; tagline; status; about: string[] (min 1); resume: string (starts with "/"); socials: { github: url; linkedin: url; email: email; instagram: url } }`.
 - Collections (in `content.config.ts`): `profile` = `file('src/content/profile.yaml')` (a YAML array with one entry `id: main`); `experience` = `glob({ pattern: '*.md', base: './src/content/experience' })` with schema `({ image }) => jobFields.extend({ logo: image().optional() })`; `projects` = `glob({ pattern: '*.md', base: './src/content/projects' })` with `projectSchema`. If the Astro 7 API differs from this Astro 5-style content layer, follow the installed version's docs and keep the same collection names and fields.
 
