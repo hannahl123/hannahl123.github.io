@@ -39,9 +39,24 @@ const {
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url.href} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-2VXZBYZCJQ"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-2VXZBYZCJQ");
+    </script>
   </head>
   <body class="min-h-screen">
     <TopBar showToggle={modes} />
     <slot />
+    <script>
+      import { trackResume } from "../lib/analytics";
+      document.addEventListener("click", (e) => {
+        if ((e.target as Element | null)?.closest?.('[data-track="resume"]')) trackResume();
+      });
+    </script>
   </body>
 </html>

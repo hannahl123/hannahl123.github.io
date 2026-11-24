@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { runCommand, type Block, type Tone } from "../../lib/terminal/commands";
 import { complete } from "../../lib/terminal/complete";
+import { trackResume } from "../../lib/analytics";
 import type { SiteData } from "../../lib/types";
 
 interface Props {
@@ -104,7 +105,7 @@ function BlockView({ block }: { block: Block }) {
   }
 }
 
-export default function Terminal({ data, onTrack }: Props) {
+export default function Terminal({ data, onTrack = trackResume }: Props) {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [value, setValue] = useState("");
   const [hint, setHint] = useState<string[]>([]);
