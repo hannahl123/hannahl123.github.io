@@ -8,8 +8,8 @@ const items = [
 ---
 
 <nav aria-label="Sections" data-section-index
-  class="sticky top-[var(--topbar-h)] z-10 -mx-5 overflow-x-auto bg-bg/90 px-5 py-2 backdrop-blur lg:fixed lg:top-28 lg:right-8 lg:mx-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
-  <ul class="flex gap-4 text-sm lg:flex-col lg:gap-2 lg:text-right">
+  class="sticky top-[var(--topbar-h)] z-10 -mx-5 overflow-x-auto bg-bg/90 px-5 py-2 backdrop-blur xl:fixed xl:top-28 xl:right-8 xl:mx-0 xl:bg-transparent xl:p-0 xl:backdrop-blur-none">
+  <ul class="flex gap-4 text-sm xl:flex-col xl:gap-2 xl:text-right">
     {items.map(({ label, href }) => (
       <li><a href={href} class="whitespace-nowrap text-muted transition hover:text-pink aria-[current=true]:text-pink">~/{label}{href.startsWith("/") && " ↗"}</a></li>
     ))}
