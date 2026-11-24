@@ -1,0 +1,14 @@
+- id: main
+  name: "Hannah Liu"
+  tagline: "Software Engineering @ UWaterloo"
+  status: "open to summer 2027 internships"
+  about:
+    - "Hello! I'm Hannah Liu, a Software Engineering student at the University of Waterloo. I have a strong passion for technology, problem-solving, and project development. In my free time, I learn new melodies on the piano, go for walks, and chat with others who share my enthusiasm for programming and problem-solving."
+    - "My technical journey is defined by a commitment to continuous learning and innovation. I have interned at Shopify twice, where I contributed to large-scale systems serving over 2 million merchants. My work there has ranged from architecting centralized entitlement systems and optimizing ETL data pipelines to developing high-performance web components and modernizing analytics interfaces using React and TypeScript."
+    - "Beyond my professional experience, I enjoy designing and developing diverse applications to explore a broad tech stack, including Python, Node.js, and GCP. Whether I am leading a team to build an embedded security system or optimizing grocery routes in a mobile app, I focus on creating accessible, user-centric solutions."
+  resume: "/Resume_Hannah_Liu.pdf"
+  socials:
+    github: "https://github.com/hannahl123"
+    linkedin: "https://www.linkedin.com/in/hannah-liu2006/"
+    email: "liu.hannah136@gmail.com"
+    instagram: "https://www.instagram.com/hannahliu136/"
