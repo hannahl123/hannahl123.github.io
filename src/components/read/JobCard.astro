@@ -5,14 +5,16 @@ const { job } = Astro.props;
 ---
 
 <article class="rounded-xl border border-card-border bg-card p-5 transition hover:border-pink/60">
-  <header class="flex flex-wrap items-center gap-x-3 gap-y-1">
+  <header class="flex items-start gap-3">
     {job.logo && (
-      <span class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-[#fdfbff] p-1.5">
+      <span class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#fdfbff] p-1.5">
         <img src={job.logo.src} width={job.logo.width} height={job.logo.height} alt={job.company} class="size-full object-contain" loading="lazy" />
       </span>
     )}
-    <h3 class="font-bold"><span class="text-butter">{job.company}</span> <span class="text-muted">·</span> {job.role}</h3>
-    <p class="w-full text-sm text-muted sm:ml-auto sm:w-auto">{job.dateLabel} · {job.location}</p>
+    <div class="min-w-0">
+      <h3 class="font-bold leading-snug"><span class="text-butter">{job.company}</span> <span class="text-muted">·</span> {job.role}</h3>
+      <p class="mt-1 text-sm text-muted"><span class="whitespace-nowrap">{job.dateLabel}</span> · <span class="whitespace-nowrap">{job.location}</span></p>
+    </div>
   </header>
   {job.points.length > 0 && (
     <ul class="mt-4 space-y-2 text-sm leading-relaxed text-text/90">
