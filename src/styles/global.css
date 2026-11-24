@@ -16,7 +16,7 @@
 }
 
 :root {
-  --topbar-h: 0px;
+  --topbar-h: 2.75rem;
 }
 
 html {
@@ -43,4 +43,16 @@ body {
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* Modes: set on <html> by the inline head script and ModeToggle. */
+.no-js [data-requires-js] {
+  display: none !important;
+}
+[data-mode="terminal"] #read,
+[data-mode="terminal"] [data-section-index] {
+  display: none;
+}
+[data-mode="read"] #terminal-root {
+  display: none;
 }

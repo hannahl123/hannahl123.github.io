@@ -1,0 +1,13 @@
+---
+import ModeToggle from "./ModeToggle.astro";
+interface Props { showToggle?: boolean }
+const { showToggle = false } = Astro.props;
+---
+
+<header class="sticky top-0 z-20 flex h-[var(--topbar-h)] items-center gap-2 border-b border-card-border/60 bg-chrome/95 px-4 backdrop-blur">
+  <span aria-hidden="true" class="flex gap-1.5">
+    <i class="size-3 rounded-full bg-pink"></i><i class="size-3 rounded-full bg-butter"></i><i class="size-3 rounded-full bg-mint"></i>
+  </span>
+  <a href="/" class="ml-3 hidden truncate text-xs text-muted hover:text-pink sm:block">hannah@waterloo — ~/portfolio</a>
+  {showToggle && <div class="ml-auto"><ModeToggle /></div>}
+</header>

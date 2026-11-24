@@ -7,6 +7,7 @@ import Projects from "../components/read/Projects.astro";
 import Contact from "../components/read/Contact.astro";
 import Footer from "../components/read/Footer.astro";
 import SectionIndex from "../components/read/SectionIndex.astro";
+import Terminal from "../components/terminal/Terminal";
 import { loadSiteData } from "../lib/site-data";
 
 const data = await loadSiteData();
@@ -14,7 +15,7 @@ const { profile, jobs, projects, lastUpdated } = data;
 const featured = projects.filter((p) => p.featured);
 ---
 
-<Base description={`${profile.name} — ${profile.tagline}. ${profile.status}.`}>
+<Base modes description={`${profile.name} — ${profile.tagline}. ${profile.status}.`}>
   <main id="read" class="mx-auto max-w-3xl px-5 pb-4">
     <SectionIndex />
     <div class="space-y-16">
@@ -26,5 +27,7 @@ const featured = projects.filter((p) => p.featured);
     </div>
     <Footer lastUpdated={lastUpdated} />
   </main>
-  <div id="terminal-root" class="mx-auto max-w-3xl px-5"></div>
+  <div id="terminal-root" data-requires-js class="mx-auto max-w-3xl px-5">
+    <Terminal client:load data={data} />
+  </div>
 </Base>

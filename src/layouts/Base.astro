@@ -3,22 +3,34 @@ import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/700.css";
 import "@fontsource/space-grotesk/700.css";
 import "../styles/global.css";
+import TopBar from "../components/TopBar.astro";
 
 interface Props {
   title?: string;
   description?: string;
+  /** Show the read/terminal toggle (home page only). */
+  modes?: boolean;
 }
 
 const {
+  modes = false,
   title = "Hannah Liu",
   description = "Hannah Liu — Software Engineering student at the University of Waterloo.",
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js" data-mode="read">
   <head>
     <meta charset="UTF-8" />
+    <script is:inline define:vars={{ modes }}>
+      // Runs before first paint: mark JS available and restore the last mode (no flash).
+      const root = document.documentElement;
+      root.classList.replace("no-js", "js");
+      try {
+        if (modes && localStorage.getItem("mode") === "terminal") root.dataset.mode = "terminal";
+      } catch {}
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -29,7 +41,7 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body class="min-h-screen">
-    <slot name="top" />
+    <TopBar showToggle={modes} />
     <slot />
   </body>
 </html>
