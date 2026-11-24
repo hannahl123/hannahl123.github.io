@@ -103,6 +103,73 @@ body {
   animation: bunny-tilt 0.8s ease-in-out 1;
 }
 
+/* Window controls (same-document view transitions, so only what's on screen animates).
+   minimize: the page shrinks into the dock pill · restore: it grows back out of it
+   close: the page fades into the goodbye screen · reopen: the reverse. */
+html[data-window="minimized"] #window,
+html[data-window="closed"] #window {
+  visibility: hidden;
+}
+@keyframes win-shrink {
+  to {
+    transform: scale(0.04);
+    opacity: 0;
+  }
+}
+@keyframes win-grow {
+  from {
+    transform: scale(0.04);
+    opacity: 0;
+  }
+}
+@keyframes win-fade-out {
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+@keyframes win-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+html[data-vt]::view-transition-old(root),
+html[data-vt]::view-transition-new(root) {
+  transform-origin: 50% calc(100% - 44px); /* the dock pill */
+  animation: none;
+}
+html[data-vt="minimize"]::view-transition-old(root) {
+  z-index: 1;
+  animation: win-shrink 0.4s cubic-bezier(0.55, 0, 0.75, 0) forwards;
+}
+html[data-vt="restore"]::view-transition-new(root) {
+  animation: win-grow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html[data-vt="close"]::view-transition-old(root) {
+  z-index: 1;
+  animation: win-fade-out 0.3s ease-in forwards;
+}
+html[data-vt="close"]::view-transition-new(root) {
+  animation: win-fade-in 0.35s ease-out 0.15s both;
+}
+/* reopen grows the page back out of the "reopen" button, like restoring from the dock */
+html[data-vt="reopen"]::view-transition-new(root) {
+  transform-origin: var(--reopen-x, 50%) var(--reopen-y, 50%);
+  animation: win-grow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html[data-vt="reopen"]::view-transition-old(root) {
+  animation: win-fade-out 0.18s ease-out forwards; /* clear the goodbye screen quickly */
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.6);
+  }
+}
+#dock:not([hidden]) {
+  animation: pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s both;
+}
+
 /* Thin pastel scrollbar for the terminal window. */
 .terminal-scroll {
   /* scrolling past the end of the terminal shouldn't move or bounce the page */
@@ -152,10 +219,10 @@ body {
     transform: translate(-50%, calc(var(--rise) * -1)) scale(1.35);
   }
 }
-::view-transition-old(root) {
+html:not([data-vt])::view-transition-old(root) {
   animation: page-out 0.3s ease-in both;
 }
-::view-transition-new(root) {
+html:not([data-vt])::view-transition-new(root) {
   animation: page-in 0.4s ease-out 0.4s both;
 }
 .bubble-layer {

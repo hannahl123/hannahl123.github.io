@@ -4,6 +4,7 @@ import "@fontsource/jetbrains-mono/700.css";
 import "@fontsource/space-grotesk/700.css";
 import "../styles/global.css";
 import TopBar from "../components/TopBar.astro";
+import WindowChrome from "../components/WindowChrome.astro";
 
 interface Props {
   title?: string;
@@ -79,8 +80,11 @@ const {
     </script>
   </head>
   <body class="min-h-screen">
-    <TopBar showToggle={modes} />
-    <slot />
+    <div id="window">
+      <TopBar showToggle={modes} />
+      <slot />
+    </div>
+    <WindowChrome />
     <script>
       import { trackResume } from "../lib/analytics";
       document.addEventListener("click", (e) => {

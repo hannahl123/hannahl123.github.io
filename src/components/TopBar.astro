@@ -7,10 +7,17 @@ const { showToggle = false } = Astro.props;
 
 <header class="sticky top-0 z-20 flex h-[var(--topbar-h)] items-center gap-2 border-b border-card-border/60 bg-chrome/95 px-4 backdrop-blur">
   <span class="flex items-center gap-1.5">
-    <i aria-hidden="true" class="size-3 rounded-full bg-pink"></i><i aria-hidden="true" class="size-3 rounded-full bg-butter"></i>
-    <button type="button" data-fullscreen-btn aria-label="Enter full screen" title="Full screen"
-      class="group relative size-3 rounded-full bg-mint transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint">
-      <span aria-hidden="true" class="pointer-events-none absolute inset-0 flex items-center justify-center text-[8px] leading-none font-bold text-chrome opacity-0 transition group-hover:opacity-80 group-focus-visible:opacity-80">⤢</span>
+    <button type="button" data-window-btn="close" disabled aria-label="Close window" title="Close"
+      class="group relative size-3 rounded-full bg-pink transition enabled:hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink">
+      <span aria-hidden="true" class="pointer-events-none absolute inset-0 flex items-center justify-center text-[8px] leading-none font-bold text-chrome opacity-0 transition group-enabled:group-hover:opacity-80 group-focus-visible:opacity-80">×</span>
+    </button>
+    <button type="button" data-window-btn="minimize" disabled aria-label="Minimize window" title="Minimize"
+      class="group relative size-3 rounded-full bg-butter transition enabled:hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-butter">
+      <span aria-hidden="true" class="pointer-events-none absolute inset-0 flex items-center justify-center text-[9px] leading-none font-bold text-chrome opacity-0 transition group-enabled:group-hover:opacity-80 group-focus-visible:opacity-80">–</span>
+    </button>
+    <button type="button" data-fullscreen-btn disabled aria-label="Enter full screen" title="Full screen"
+      class="group relative size-3 rounded-full bg-mint transition enabled:hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint">
+      <span aria-hidden="true" class="pointer-events-none absolute inset-0 flex items-center justify-center text-[8px] leading-none font-bold text-chrome opacity-0 transition group-enabled:group-hover:opacity-80 group-focus-visible:opacity-80">⤢</span>
     </button>
   </span>
   <a href="/" class="ml-3 hidden truncate text-xs text-muted hover:text-pink sm:block">hannah@waterloo — ~/portfolio</a>
@@ -38,6 +45,7 @@ const { showToggle = false } = Astro.props;
     btn.setAttribute("aria-hidden", "true");
     btn.tabIndex = -1;
   } else if (btn) {
+    btn.disabled = false;
     const sync = () => btn.setAttribute("aria-label", current() ? "Exit full screen" : "Enter full screen");
     btn.addEventListener("click", async () => {
       try {
