@@ -13,7 +13,6 @@ field is missing or a link is malformed.
    ---
    title: "My App"
    description: "One or two sentences about what it is and what you built it with."
-   featured: false   # true = shown on the home page (keep it to about 5)
    order: 20         # lower numbers come first
    tags: ["react", "typescript"]   # optional
    links:            # any of: github, youtube, figma, devpost, link

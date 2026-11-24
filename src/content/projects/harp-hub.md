@@ -1,7 +1,6 @@
 ---
 title: "HaRP Hub"
 description: "A hackathon project created at RBC NGI Hackathon 2022, designed with Figma. Learned a lot more about how to use Figma and planning out ideas."
-featured: false
 order: 6
 links:
   figma: "https://www.figma.com/file/3rLKPYUxDtNXEi2B9IdhKy/RBC-NGI-Hackathon?type=design&node-id=0-1"

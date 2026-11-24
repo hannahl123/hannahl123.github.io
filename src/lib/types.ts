@@ -25,7 +25,6 @@ export interface Project {
   slug: string;
   title: string;
   description: string;
-  featured: boolean;
   order: number;
   tags: string[];
   links: Partial<Record<LinkKind, string>>;

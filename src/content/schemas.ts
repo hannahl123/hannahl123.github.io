@@ -16,7 +16,6 @@ export const linksSchema = z
 export const projectSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
-  featured: z.boolean().default(false),
   order: z.number(),
   tags: z.array(z.string()).default([]),
   links: linksSchema.default({}),

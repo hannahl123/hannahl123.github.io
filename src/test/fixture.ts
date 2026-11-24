@@ -19,9 +19,9 @@ export const fixture: SiteData = {
     { id: "sh", company: "Shopify", role: "SWE Intern", location: "Toronto, ON", start: "2025-05", end: "2025-08", dateLabel: "May – Aug 2025", points: ["Did things"] },
   ],
   projects: [
-    { slug: "reflect", title: "Reflect.", description: "Social app", featured: true, order: 0, tags: [], links: { github: "https://github.com/hannahl123/Reflect" } },
-    { slug: "pocket-pantry", title: "Pocket Pantry", description: "Recipes", featured: true, order: 1, tags: [], links: { devpost: "https://devpost.com/software/x" } },
-    { slug: "personal-website", title: "Personal Website", description: "This site", featured: false, order: 2, tags: [], links: { link: "https://hannahl123.github.io/" } },
+    { slug: "reflect", title: "Reflect.", description: "Social app", order: 0, tags: [], links: { github: "https://github.com/hannahl123/Reflect" } },
+    { slug: "pocket-pantry", title: "Pocket Pantry", description: "Recipes", order: 1, tags: [], links: { devpost: "https://devpost.com/software/x" } },
+    { slug: "personal-website", title: "Personal Website", description: "This site", order: 2, tags: [], links: { link: "https://hannahl123.github.io/" } },
   ],
   lastUpdated: "November 2026",
 };

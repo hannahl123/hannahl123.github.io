@@ -1,7 +1,6 @@
 ---
 title: "ShopSmart"
 description: "A mobile app to generate an optimized shopping trip to save users money and time, built with React Native, TypeScript, and MariaDB."
-featured: true
 order: 2
 links:
   github: "https://github.com/hannahl123/shopsmart"

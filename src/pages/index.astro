@@ -3,7 +3,6 @@ import Base from "../layouts/Base.astro";
 import Whoami from "../components/read/Whoami.astro";
 import About from "../components/read/About.astro";
 import Work from "../components/read/Work.astro";
-import Projects from "../components/read/Projects.astro";
 import Contact from "../components/read/Contact.astro";
 import Footer from "../components/read/Footer.astro";
 import SectionIndex from "../components/read/SectionIndex.astro";
@@ -11,8 +10,7 @@ import Terminal from "../components/terminal/Terminal";
 import { loadSiteData } from "../lib/site-data";
 
 const data = await loadSiteData();
-const { profile, jobs, projects, lastUpdated } = data;
-const featured = projects.filter((p) => p.featured);
+const { profile, jobs, lastUpdated } = data;
 ---
 
 <Base modes description={`${profile.name} — ${profile.tagline}. ${profile.status}.`}>
@@ -22,7 +20,6 @@ const featured = projects.filter((p) => p.featured);
       <Whoami profile={profile} />
       <About paragraphs={profile.about} />
       <Work jobs={jobs} />
-      <Projects projects={featured} total={projects.length} />
       <Contact profile={profile} />
     </div>
     <Footer lastUpdated={lastUpdated} />

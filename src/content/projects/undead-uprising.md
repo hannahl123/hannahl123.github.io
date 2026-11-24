@@ -1,7 +1,6 @@
 ---
 title: "Undead Uprising"
 description: "An amazing zombie apocalyse game built using Pygame, Figma, and Pixilart, along with 5 teammates in ICS4U."
-featured: false
 order: 5
 links:
   github: "https://github.com/hannahl123/Undead-Uprising"

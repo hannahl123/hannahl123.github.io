@@ -254,3 +254,10 @@ the "dark theme only" call above.
   It's set before first paint (no flash), works when storage is blocked, and the button
   is hidden without JS (the system theme still applies through CSS).
 - The theme applies on every page; the read/terminal switch stays home-only.
+
+## Addendum (2026-11-24): projects only on /projects
+
+Hannah asked to drop the `ls projects/` section from the home page. Projects now appear
+only on `/projects` (and through the terminal's `projects` / `open` commands). The
+home section index links `~/projects ↗` to that page, and the `featured` flag is removed
+from the schema and content because nothing reads it anymore.

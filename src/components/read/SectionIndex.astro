@@ -1,18 +1,23 @@
 ---
-const items = ["about", "work", "projects", "contact"];
+const items = [
+  { label: "about", href: "#about" },
+  { label: "work", href: "#work" },
+  { label: "projects", href: "/projects" },
+  { label: "contact", href: "#contact" },
+];
 ---
 
 <nav aria-label="Sections" data-section-index
   class="sticky top-[var(--topbar-h)] z-10 -mx-5 overflow-x-auto bg-bg/90 px-5 py-2 backdrop-blur lg:fixed lg:top-28 lg:right-8 lg:mx-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
   <ul class="flex gap-4 text-sm lg:flex-col lg:gap-2 lg:text-right">
-    {items.map((id) => (
-      <li><a href={`#${id}`} class="whitespace-nowrap text-muted transition hover:text-pink aria-[current=true]:text-pink">~/{id}</a></li>
+    {items.map(({ label, href }) => (
+      <li><a href={href} class="whitespace-nowrap text-muted transition hover:text-pink aria-[current=true]:text-pink">~/{label}{href.startsWith("/") && " ↗"}</a></li>
     ))}
   </ul>
 </nav>
 
 <script>
-  const links = [...document.querySelectorAll<HTMLAnchorElement>("[data-section-index] a")];
+  const links = [...document.querySelectorAll<HTMLAnchorElement>("[data-section-index] a")].filter((a) => a.hash);
   const byId = new Map(links.map((a) => [a.hash.slice(1), a]));
   const observer = new IntersectionObserver(
     (entries) => {
