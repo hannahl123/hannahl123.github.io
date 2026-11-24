@@ -35,6 +35,27 @@ const {
         theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
       }
       root.dataset.theme = theme;
+
+      // Bubble page transition: the old page fades out while pastel bubbles float up and
+      // pop, then the new page fades in. Browsers without cross-document view transitions
+      // (or with reduced motion) just navigate normally.
+      addEventListener("pagereveal", (e) => {
+        if (!e.viewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const layer = document.createElement("div");
+        layer.className = "bubble-layer";
+        layer.setAttribute("aria-hidden", "true");
+        const colors = ["#ff9ecf", "#8be0c3", "#ffd88a", "#a9b8ff"];
+        for (let i = 0; i < 18; i++) {
+          const b = document.createElement("span");
+          const size = 14 + Math.random() * 46;
+          b.style.cssText =
+            "--size:" + size + "px;--x:" + Math.random() * 100 + "vw;--y:" + (40 + Math.random() * 60) +
+            "vh;--rise:" + (20 + Math.random() * 35) + "vh;--delay:" + Math.random() * 220 + "ms;--c:" + colors[i % colors.length];
+          layer.append(b);
+        }
+        document.documentElement.append(layer);
+        e.viewTransition.finished.finally(() => layer.remove());
+      });
       try {
         if (modes && localStorage.getItem("mode") === "terminal") root.dataset.mode = "terminal";
       } catch {}

@@ -103,10 +103,99 @@ body {
   animation: bunny-tilt 0.8s ease-in-out 1;
 }
 
+/* Thin pastel scrollbar for the terminal window. */
+.terminal-scroll {
+  /* scrolling past the end of the terminal shouldn't move or bounce the page */
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-card-border) transparent;
+}
+.terminal-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.terminal-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-card-border);
+  border-radius: 8px;
+}
+.terminal-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--color-pink);
+}
+
+/* Bubble transition between pages (cross-document view transitions). */
+@view-transition {
+  navigation: auto;
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes bubble {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0.4);
+  }
+  25% {
+    opacity: 0.85;
+  }
+  80% {
+    opacity: 0.7;
+    transform: translate(-50%, calc(var(--rise) * -0.85)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, calc(var(--rise) * -1)) scale(1.35);
+  }
+}
+::view-transition-old(root) {
+  animation: page-out 0.3s ease-in both;
+}
+::view-transition-new(root) {
+  animation: page-in 0.4s ease-out 0.4s both;
+}
+.bubble-layer {
+  view-transition-name: bubbles;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+::view-transition-group(bubbles),
+::view-transition-new(bubbles) {
+  animation: none;
+}
+.bubble-layer span {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  /* soap-bubble look: bright highlight, see-through middle, tinted rim */
+  background: radial-gradient(
+    circle at 32% 28%,
+    rgb(255 255 255 / 0.95) 0 9%,
+    color-mix(in srgb, var(--c) 30%, transparent) 30%,
+    color-mix(in srgb, var(--c) 18%, transparent) 62%,
+    color-mix(in srgb, var(--c) 55%, transparent) 100%
+  );
+  border: 1.5px solid color-mix(in srgb, var(--c) 75%, transparent);
+  opacity: 0;
+  animation: bubble 0.75s ease-out var(--delay) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*),
   *,
   *::before,
   *::after {
@@ -125,4 +214,8 @@ body {
 }
 [data-mode="read"] #terminal-root {
   display: none;
+}
+html[data-mode="terminal"],
+html[data-mode="terminal"] body {
+  overscroll-behavior: none;
 }

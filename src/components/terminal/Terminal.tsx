@@ -114,11 +114,13 @@ export default function Terminal({ data, onTrack = trackResume }: Props) {
   const cursor = useRef(0);
   const nextId = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  const endRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    endRef.current?.scrollIntoView?.({ block: "nearest" });
-  }, [entries]);
+    // Keep the newest output in view inside the terminal window (not the page).
+    const el = scrollRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [entries, hint]);
 
   // Focus the prompt when terminal mode is shown, except on touch devices (no surprise keyboard).
   useEffect(() => {
@@ -206,18 +208,19 @@ export default function Terminal({ data, onTrack = trackResume }: Props) {
         ))}
       </div>
 
-      <div className="mt-6 min-h-[50vh] rounded-xl border border-card-border bg-card p-4 text-sm leading-relaxed sm:p-5">
-        <div data-testid="terminal-output" aria-live="polite" className="space-y-3">
-          {entries.map((entry) => (
-            <div key={entry.id} className="space-y-1">
-              <PromptLine>{entry.input}</PromptLine>
-              {entry.blocks.map((b, i) => (
-                <BlockView key={i} block={b} />
-              ))}
-            </div>
-          ))}
-        </div>
-        {hint.length > 0 && <p className="mt-3 text-mint">{hint.join("  ")}</p>}
+      <div className="mt-6 flex h-[min(60vh,32rem)] min-h-72 flex-col rounded-xl border border-card-border bg-card text-sm leading-relaxed">
+        <div ref={scrollRef} data-testid="terminal-scroll" className="terminal-scroll relative min-h-0 flex-1 overflow-y-auto p-4 sm:p-5">
+          <div data-testid="terminal-output" aria-live="polite" className="space-y-3">
+            {entries.map((entry) => (
+              <div key={entry.id} className="space-y-1">
+                <PromptLine>{entry.input}</PromptLine>
+                {entry.blocks.map((b, i) => (
+                  <BlockView key={i} block={b} />
+                ))}
+              </div>
+            ))}
+          </div>
+          {hint.length > 0 && <p className="mt-3 text-mint">{hint.join("  ")}</p>}
         <label className="mt-3 flex items-center gap-2">
           <span className="sr-only">Terminal command</span>
           <PromptLine />
@@ -242,7 +245,7 @@ export default function Terminal({ data, onTrack = trackResume }: Props) {
             )}
           </span>
         </label>
-        <div ref={endRef} />
+        </div>
       </div>
     </section>
   );
