@@ -172,7 +172,7 @@ src/assets/logos/       # shopify.svg, biomics.png (logo images, imported via As
 public/Resume_Hannah_Liu.pdf
 ```
 
-- Use Astro's `image()` schema helper for `logo`, so a missing logo file fails the build.
+- Use Astro's `image()` schema helper for `logo` (optional), so a logo path that points to a missing file fails the build.
 - Every value in `links` uses `z.string().url()`. This already catches two broken
   existing links (see Data fixes).
 - Dates are stored as `YYYY-MM` and formatted for display ("Jan 2026 – Present").
@@ -200,8 +200,8 @@ public/Resume_Hannah_Liu.pdf
 
 ## Logos
 
-- Shopify and Wealthsimple: use the official logos from each company's brand or press page. Biomics: take it from
-  their website.
+- Shopify and Wealthsimple: use the official logos from each company's brand or press page. Biomics has **no logo** (Hannah's call), so `logo` is optional and
+  a job without one renders with no logo tile.
 - Shown at about 20–24px next to the company name, inside a small rounded tile, so logos
   of different shapes and colors sit evenly on the dark background. Alt text is the
   company name.
